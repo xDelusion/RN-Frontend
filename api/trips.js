@@ -1,5 +1,6 @@
 import instance from ".";
 import jwt_decode from "jwt-decode";
+import * as SecureStore from "expo-secure-store";
 
 const register = async (userInfo) => {
   const formData = new FormData();
@@ -16,21 +17,22 @@ const register = async (userInfo) => {
     uri: userInfo.image,
   });
 
-  const res = await instance.post("/auth/register", formData);
+  const res = await instance.post("/api/auth/register", formData);
   return res.data;
 };
 
 const login = async (userInfo) => {
-  const res = await instance.post("/auth/login", userInfo);
+  const res = await instance.post("/api/auth/login", userInfo);
   return res.data;
 };
 
-const storeToken = (access) => {
-  localStorage.setItem("token", access);
+const storeToken = async (access) => {
+  //   localStorage.setItem("token", access);
+  await SecureStore.setItemAsync("token", access);
 };
 
-const checkToken = () => {
-  const token = localStorage.getItem("token");
+const checkToken = async () => {
+  const token = await SecureStore.getItemAsync("token");
   if (token) {
     const decode = jwt_decode(token);
 
@@ -44,8 +46,8 @@ const checkToken = () => {
   return false;
 };
 
-const logOut = () => {
-  localStorage.removeItem("token");
+const logOut = async () => {
+  await SecureStore.deleteItemAsync("token");
 };
 
 export { register, login, logOut, storeToken, checkToken };

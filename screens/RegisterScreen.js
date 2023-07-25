@@ -11,7 +11,7 @@ import {
   ImageBackground,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import register from "../api/trips";
+import { register, storeToken } from "../api/trips";
 
 const RegisterScreen = ({ navigation }) => {
   const [profileImage, setProfileImage] = useState(null);
@@ -20,7 +20,7 @@ const RegisterScreen = ({ navigation }) => {
   const { mutate: registerFunction, error } = useMutation({
     mutationFn: () => register({ ...userInfo, profileImage }),
     onSuccess: (data) => {
-      saveToken(data.token);
+      storeToken(data.token);
     },
   });
 

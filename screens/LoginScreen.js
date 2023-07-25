@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+import { login, storeToken } from "../api/trips";
 
 const LoginScreen = ({ navigation }) => {
   const [userInfo, setuserInfo] = useState({});
@@ -20,8 +21,12 @@ const LoginScreen = ({ navigation }) => {
   } = useMutation({
     mutationFn: () => login(userInfo),
     onSuccess: (data) => {
-      saveToken(data.token);
-      setUser(true);
+      console.log(data);
+      storeToken(data.token);
+      //   setUser(true);
+    },
+    onError: (error) => {
+      console.log(error);
     },
   });
   const handleRegisterPress = () => {
@@ -59,16 +64,17 @@ const LoginScreen = ({ navigation }) => {
         />
 
         {/* Login Button */}
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={() => {
+            loginFunction();
+          }}
+        >
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
 
         {/* Register Here Link */}
-        <TouchableOpacity
-          onPress={() => {
-            loginFunction();
-          }}
-        ></TouchableOpacity>
+
         <TouchableOpacity
           onPress={() => {
             handleRegisterPress();
