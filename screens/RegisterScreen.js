@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useMutation } from "@tanstack/react-query";
 import {
   View,
   Text,
@@ -10,12 +11,18 @@ import {
   ImageBackground,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import register from "../api/trips";
 
 const RegisterScreen = ({ navigation }) => {
   const [profileImage, setProfileImage] = useState(null);
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [userInfo, setUserInfo] = useState({});
+
+  const { mutate: registerFunction, error } = useMutation({
+    mutationFn: () => register({ ...userInfo, profileImage }),
+    onSuccess: (data) => {
+      saveToken(data.token);
+    },
+  });
 
   useEffect(() => {
     // Request permission to access the device's gallery
@@ -45,17 +52,17 @@ const RegisterScreen = ({ navigation }) => {
     }
   };
 
-  const handleRegister = () => {
-    // Implement your register logic here
-    // For example, you can send the data to your backend server
-    // and handle the registration process.
-    // After successful registration, you can navigate to the home screen or login screen.
-    // navigation.navigate("Home");
-  };
+  //   const handleRegister = () => {
+  //     // Implement your register logic here
+  //     // For example, you can send the data to your backend server
+  //     // and handle the registration process.
+  //     // After successful registration, you can navigate to the home screen or login screen.
+  //     // navigation.navigate("Home");
+  //   };
 
   return (
     <ImageBackground
-      source={require("../assets/RS2.jpg")} // Replace with your background image path
+      source={require("../assets/RS2.jpg")}
       style={styles.backgroundImage}
     >
       <ScrollView
@@ -83,16 +90,18 @@ const RegisterScreen = ({ navigation }) => {
           style={styles.input}
           placeholder="Username"
           placeholderTextColor="#aaa"
-          value={username}
-          onChangeText={setUsername}
+          onChangeText={(value) => {
+            setUserInfo({ ...userInfo, username: value });
+          }}
         />
 
         <TextInput
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#aaa"
-          value={email}
-          onChangeText={setEmail}
+          onChangeText={(value) => {
+            setUserInfo({ ...userInfo, email: value });
+          }}
           keyboardType="email-address"
           autoCapitalize="none"
         />
@@ -101,14 +110,17 @@ const RegisterScreen = ({ navigation }) => {
           style={styles.input}
           placeholder="Password"
           placeholderTextColor="#aaa"
-          value={password}
-          onChangeText={setPassword}
+          onChangeText={(value) => {
+            setUserInfo({ ...userInfo, password: value });
+          }}
           secureTextEntry
         />
 
         <TouchableOpacity
           style={styles.registerButton}
-          onPress={handleRegister}
+          onPress={() => {
+            registerFunction();
+          }}
         >
           <Text style={styles.registerButtonText}>Register</Text>
         </TouchableOpacity>
