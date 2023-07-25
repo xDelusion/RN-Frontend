@@ -68,9 +68,14 @@ const LoginScreen = ({ navigation }) => {
           onPress={() => {
             loginFunction();
           }}
+        ></TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => {
+            handleRegisterPress();
+          }}
         >
           <Text style={styles.registerLink}>
-            Don't have an account?{" "}
+            Don't have an account?
             <Text style={styles.registerText}>Register here</Text>
           </Text>
         </TouchableOpacity>
