@@ -7,8 +7,23 @@ import {
   StyleSheet,
   ImageBackground,
 } from "react-native";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
 const LoginScreen = ({ navigation }) => {
+  const [userInfo, setuserInfo] = useState({});
+  //   const { setUser } = useContext(UserContext);
+  const {
+    mutate: loginFunction,
+    error,
+    isLoading,
+  } = useMutation({
+    mutationFn: () => login(userInfo),
+    onSuccess: (data) => {
+      saveToken(data.token);
+      setUser(true);
+    },
+  });
   const handleRegisterPress = () => {
     navigation.navigate("Register"); // Navigate to the "Register" screen
   };
@@ -27,6 +42,9 @@ const LoginScreen = ({ navigation }) => {
           style={styles.input}
           placeholder="Username"
           placeholderTextColor="#aaa"
+          onChangeText={(value) => {
+            setuserInfo({ ...userInfo, username: value });
+          }}
         />
 
         {/* Password Input */}
@@ -35,6 +53,9 @@ const LoginScreen = ({ navigation }) => {
           placeholder="Password"
           placeholderTextColor="#aaa"
           secureTextEntry={true}
+          onChangeText={(value) => {
+            setuserInfo({ ...userInfo, password: value });
+          }}
         />
 
         {/* Login Button */}
@@ -43,7 +64,11 @@ const LoginScreen = ({ navigation }) => {
         </TouchableOpacity>
 
         {/* Register Here Link */}
-        <TouchableOpacity onPress={handleRegisterPress}>
+        <TouchableOpacity
+          onPress={() => {
+            loginFunction();
+          }}
+        >
           <Text style={styles.registerLink}>
             Don't have an account?{" "}
             <Text style={styles.registerText}>Register here</Text>
