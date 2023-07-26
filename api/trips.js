@@ -46,8 +46,17 @@ const checkToken = async () => {
   return false;
 };
 
+const getToken = async () => {
+  try {
+    const token = await SecureStore.getItemAsync("token");
+    return token;
+  } catch (error) {
+    console.log("Error while trying to get the token", error);
+  }
+};
+
 const logOut = async () => {
   await SecureStore.deleteItemAsync("token");
 };
 
-export { register, login, logOut, storeToken, checkToken };
+export { register, login, logOut, storeToken, checkToken, getToken };
