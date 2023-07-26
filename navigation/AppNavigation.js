@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -9,10 +9,12 @@ import HomeScreen from "../screens/HomeScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+import UserContext from "../context/UserContext";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
 const HomeStack = () => {
+  const { user, setUser } = useContext(UserContext);
   return (
     <Stack.Navigator options={{}}>
       <Stack.Screen

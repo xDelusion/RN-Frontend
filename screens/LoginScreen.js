@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -10,10 +10,11 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { login, storeToken } from "../api/trips";
+import UserContext from "../context/UserContext";
 
 const LoginScreen = ({ navigation }) => {
   const [userInfo, setuserInfo] = useState({});
-  //   const { setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const {
     mutate: loginFunction,
     error,
@@ -23,7 +24,7 @@ const LoginScreen = ({ navigation }) => {
     onSuccess: (data) => {
       console.log(data);
       storeToken(data.token);
-      //   setUser(true);
+      setUser(true);
     },
     onError: (error) => {
       console.log(error);
