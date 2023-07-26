@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { logOut } from "../api/trips";
+import UserContext from "../context/UserContext";
 
 const TripCard = ({ trip }) => {
   return (
@@ -24,6 +25,8 @@ const TripCard = ({ trip }) => {
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
+  const { user, setUser } = useContext(UserContext);
+
   const profileData = {
     profileImage: "https://example.com/profile.jpg", // Replace with your profile image URI
     username: "JohnDoe",
@@ -56,6 +59,9 @@ const ProfileScreen = () => {
     // For example, clear user session or token, reset state, etc.
 
     // After logout, navigate to the home screen
+    logOut();
+    setUser(false);
+
     navigation.navigate("Home");
   };
 

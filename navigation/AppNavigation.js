@@ -44,6 +44,7 @@ const HomeStack = () => {
 };
 
 export default function AppNavigation() {
+  const { user } = useContext(UserContext);
   return (
     <NavigationContainer>
       <Tab.Navigator
@@ -82,7 +83,7 @@ export default function AppNavigation() {
         />
         <Tab.Screen
           name="Profile"
-          component={ProfileScreen}
+          component={user ? ProfileScreen : LoginScreen}
           options={{
             tabBarIcon: ({ color }) => (
               <Ionicons name="person" size={24} color={color} />

@@ -22,9 +22,9 @@ const LoginScreen = ({ navigation }) => {
   } = useMutation({
     mutationFn: () => login(userInfo),
     onSuccess: (data) => {
-      console.log(data);
       storeToken(data.token);
       setUser(true);
+      navigation.navigate("Home");
     },
     onError: (error) => {
       console.log(error);

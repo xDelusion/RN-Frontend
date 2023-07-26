@@ -12,15 +12,19 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { register, storeToken } from "../api/trips";
+import UserContext from "../context/UserContext";
 
 const RegisterScreen = ({ navigation }) => {
   const [profileImage, setProfileImage] = useState(null);
   const [userInfo, setUserInfo] = useState({});
+  const { setUser } = useContext(UserContext);
 
   const { mutate: registerFunction, error } = useMutation({
     mutationFn: () => register({ ...userInfo, profileImage }),
     onSuccess: (data) => {
       storeToken(data.token);
+      setUser(true);
+      navigation.navigate("Home");
     },
   });
 
@@ -44,7 +48,7 @@ const RegisterScreen = ({ navigation }) => {
         quality: 1,
       });
 
-      if (!result.cancelled) {
+      if (!result.canceled) {
         setProfileImage(result.uri);
       }
     } catch (error) {

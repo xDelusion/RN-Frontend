@@ -59,4 +59,17 @@ const logOut = async () => {
   await SecureStore.deleteItemAsync("token");
 };
 
-export { register, login, logOut, storeToken, checkToken, getToken };
+const getAllTrips = async () => {
+  const res = await instance.get("/api/trip");
+  return res.data;
+};
+
+export {
+  register,
+  login,
+  logOut,
+  storeToken,
+  checkToken,
+  getToken,
+  getAllTrips,
+};

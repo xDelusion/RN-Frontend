@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   View,
   Text,
@@ -9,8 +9,10 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context"; // Import SafeAreaView
 
 import AppHeader from "../components/AppHeader";
+import UserContext from "../context/UserContext";
 
 const HomeScreen = ({ navigation }) => {
+  const { user } = useContext(UserContext);
   const handleExplorePress = () => {
     navigation.navigate("Explore");
   };
@@ -26,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
     >
       <SafeAreaView style={styles.container}>
         {/* Custom Header */}
-        <AppHeader onPressLogin={handleLoginPress} />
+        {!user && <AppHeader onPressLogin={handleLoginPress} />}
 
         {/* Main Content */}
         <View style={styles.contentContainer}>
