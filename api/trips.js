@@ -66,7 +66,26 @@ const getAllTrips = async () => {
 
 const addTrip = async (data) => {
   console.log("CALLING API ADD TRIP");
-  const res = await instance.post("/api/trip", data);
+  const formData = new FormData();
+  for (const key in data) {
+    if (key !== "image") {
+      formData.append(key, data[key]);
+    } else {
+      formData.append(key, {
+        uri: data.image,
+        name: data.image,
+        type: "image/jpeg",
+      });
+    }
+  }
+  console.log("FORMDATA", formData);
+  const res = await instance.post("/api/trip", formData);
+  return res.data;
+};
+
+const getMe = async () => {
+  console.log("first");
+  const res = await instance.get("/api/auth/me");
   return res.data;
 };
 
@@ -78,5 +97,6 @@ export {
   checkToken,
   getToken,
   getAllTrips,
+  getMe,
   addTrip,
 };
