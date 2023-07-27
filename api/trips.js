@@ -64,6 +64,12 @@ const getAllTrips = async () => {
   return res.data;
 };
 
+const addTrip = async (data) => {
+  console.log("CALLING API ADD TRIP");
+  const res = await instance.post("/api/trip", data);
+  return res.data;
+};
+
 export {
   register,
   login,
@@ -72,4 +78,5 @@ export {
   checkToken,
   getToken,
   getAllTrips,
+  addTrip,
 };
