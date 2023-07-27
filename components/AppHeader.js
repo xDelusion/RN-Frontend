@@ -11,12 +11,6 @@ import { Ionicons } from "@expo/vector-icons";
 const AppHeader = ({ onPressLogin }) => {
   return (
     <SafeAreaView style={styles.container}>
-      {/* Logo or Name */}
-      <View style={styles.logoContainer}>
-        {/* Replace 'YourLogo' with your actual logo or app name */}
-        <Text style={styles.logoText}>YourLogo</Text>
-      </View>
-
       {/* Login button */}
       <TouchableOpacity onPress={onPressLogin} style={styles.loginButton}>
         <Text style={styles.loginText}>Login</Text>
@@ -50,6 +44,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffa500",
     paddingVertical: 8,
     paddingHorizontal: 12,
+    marginLeft: 260,
+    marginTop: 10,
     borderRadius: 8,
   },
   loginText: {

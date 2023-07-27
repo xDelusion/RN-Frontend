@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context"; // Import SafeAreaView
+import { SafeAreaView } from "react-native-safe-area-context";
+import AppLogo from "../components/AppLogo";
 
 import AppHeader from "../components/AppHeader";
 import UserContext from "../context/UserContext";
+// Import the AppLogo component
 
 const HomeScreen = ({ navigation }) => {
   const { user } = useContext(UserContext);
@@ -23,12 +25,15 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require("../assets/eiffel-tower-1.jpg")} // Replace with your image path
+      source={require("../assets/eiffel-tower-1.jpg")}
       style={styles.backgroundImage}
     >
       <SafeAreaView style={styles.container}>
         {/* Custom Header */}
         {!user && <AppHeader onPressLogin={handleLoginPress} />}
+
+        {/* App Logo */}
+        <AppLogo />
 
         {/* Main Content */}
         <View style={styles.contentContainer}>
