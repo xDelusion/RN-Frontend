@@ -6,15 +6,21 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { logOut } from "../api/trips";
+import { getMe, logOut } from "../api/trips";
 import UserContext from "../context/UserContext";
+import { useQuery } from "@tanstack/react-query";
+import { BASE_URL } from "../api";
 
 const TripCard = ({ trip }) => {
   return (
     <TouchableOpacity style={styles.tripCard}>
-      <Image source={{ uri: trip.image }} style={styles.tripImage} />
+      <Image
+        source={{ uri: `${BASE_URL}/${trip.image}` }}
+        style={styles.tripImage}
+      />
       <View style={styles.tripInfo}>
         <Text style={styles.tripTitle}>{trip.title}</Text>
         <Text style={styles.tripDescription}>{trip.description}</Text>
@@ -27,25 +33,34 @@ const ProfileScreen = () => {
   const navigation = useNavigation();
   const { user, setUser } = useContext(UserContext);
 
+  const { data, isFetching, refetch } = useQuery({
+    queryKey: ["me"],
+    queryFn: () => {
+      console.log("first");
+      return getMe();
+    },
+  });
+
+  console.log(data, isFetching);
   const profileData = {
-    profileImage: "https://example.com/profile.jpg", // Replace with your profile image URI
-    username: "JohnDoe",
-    email: "johndoe@example.com",
-    trips: [
+    profileImage: data?.profileImage || "https://example.com/profile.jpg", // Replace with your profile image URI
+    username: data?.username || "JohnDoe",
+    email: data?.email || "johndoe@example.com",
+    trips: data?.trips || [
       {
-        id: "1",
+        _id: "1",
         title: "Trip 1",
         description: "This is Trip 1 description.",
         image: "https://example.com/trip1.jpg",
       },
       {
-        id: "2",
+        _id: "2",
         title: "Trip 2",
         description: "This is Trip 2 description.",
         image: "https://example.com/trip2.jpg",
       },
       {
-        id: "3",
+        _id: "3",
         title: "Trip 3",
         description: "This is Trip 3 description.",
         image: "https://example.com/trip3.jpg",
@@ -88,8 +103,14 @@ const ProfileScreen = () => {
         <FlatList
           data={profileData.trips}
           renderItem={renderTripItem}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item._id}
           style={styles.tripList}
+          refreshControl={
+            <RefreshControl
+              refreshing={isFetching}
+              onRefresh={() => refetch()}
+            />
+          }
         />
 
         {/* Logout Button */}
