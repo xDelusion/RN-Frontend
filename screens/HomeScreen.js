@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppLogo from "../components/AppLogo";
-
 import AppHeader from "../components/AppHeader";
 import UserContext from "../context/UserContext";
 // Import the AppLogo component
