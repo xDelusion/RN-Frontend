@@ -10,6 +10,7 @@ import ProfileScreen from "../screens/ProfileScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import UserContext from "../context/UserContext";
+import TripDetails from "../screens/TripDetailScreen";
 
 const Tab = createMaterialBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -38,6 +39,15 @@ const HomeStack = () => {
           headerShown: false,
         }}
       />
+
+      <Stack.Screen
+        name="Trip Details"
+        component={TripDetails}
+        options={{
+          headerShown: false,
+        }}
+      />
+
       {/* You can add more nested screens for the Home Stack here if needed */}
     </Stack.Navigator>
   );

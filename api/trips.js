@@ -89,6 +89,16 @@ const getMe = async () => {
   return res.data;
 };
 
+const getTripById = async (tripId) => {
+  const res = await instance.get(`api/trip/${tripId}`);
+  return res.data;
+};
+
+const deleteTrip = async (tripId) => {
+  const res = await instance.delete(`api/trip/${tripId}`);
+  return res.data;
+};
+
 export {
   register,
   login,
@@ -99,4 +109,6 @@ export {
   getAllTrips,
   getMe,
   addTrip,
+  getTripById,
+  deleteTrip,
 };

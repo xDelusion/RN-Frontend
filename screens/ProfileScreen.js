@@ -70,10 +70,6 @@ const ProfileScreen = () => {
   };
 
   const handleLogout = () => {
-    // Implement your logout logic here
-    // For example, clear user session or token, reset state, etc.
-
-    // After logout, navigate to the home screen
     logOut();
     setUser(false);
 
