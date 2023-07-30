@@ -74,7 +74,7 @@ export default function AppNavigation() {
         }}
       >
         <Tab.Screen
-          name="HomeStack"
+          name="Home"
           component={HomeStack}
           options={{
             tabBarIcon: ({ color }) => (
