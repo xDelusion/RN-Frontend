@@ -18,8 +18,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useMutation } from "@tanstack/react-query";
 import { addTrip } from "../api/trips";
 import * as ImagePicker from "expo-image-picker";
+import { useNavigation } from "@react-navigation/native";
+import TripDetails from "./TripDetailScreen";
 
-const ExploreScreen = ({ navigation }) => {
+const ExploreScreen = () => {
+  const { navigate } = useNavigation();
+
   const {
     data: tripData,
     isLoading,
@@ -45,7 +49,6 @@ const ExploreScreen = ({ navigation }) => {
     onSuccess: (data) => {
       console.log("DONE", data);
       refetch();
-      navigation.navigate("Explore");
       setModalVisible(false);
     },
     onError: (err) => {
@@ -61,7 +64,6 @@ const ExploreScreen = ({ navigation }) => {
 
   const handleReturnToExploreScreen = () => {
     setModalVisible(false);
-    navigation.navigate("Explore");
   };
 
   const handleChooseImage = async () => {
@@ -73,7 +75,7 @@ const ExploreScreen = ({ navigation }) => {
         quality: 1,
       });
 
-      if (!result.cancelled) {
+      if (!result.canceled) {
         setNewTrip({ ...newTrip, image: result.uri });
       }
     } catch (error) {
@@ -81,17 +83,23 @@ const ExploreScreen = ({ navigation }) => {
     }
   };
 
+  const handleTripCardPress = (tripId) => {
+    navigate("Trip Details", { _id: tripId });
+  };
+
   const renderTripCard = ({ item }) => (
-    <View style={styles.tripCard}>
-      <Image
-        source={{ uri: `${BASE_URL}/${item.image}` }}
-        style={styles.tripImage}
-      />
-      <View style={styles.tripInfo}>
-        <Text style={styles.tripTitle}>{item.title}</Text>
-        <Text style={styles.tripDescription}>{item.description}</Text>
+    <TouchableOpacity onPress={() => handleTripCardPress(item._id)}>
+      <View style={styles.tripCard}>
+        <Image
+          source={{ uri: `${BASE_URL}/${item.image}` }}
+          style={styles.tripImage}
+        />
+        <View style={styles.tripInfo}>
+          <Text style={styles.tripTitle}>{item.title}</Text>
+          <Text style={styles.tripDescription}>{item.description}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   const tripDataWithEmptyCard = tripData
@@ -273,6 +281,11 @@ const styles = StyleSheet.create({
   chooseImageText: {
     color: "#fff",
     fontWeight: "bold",
+  },
+  tripDetailText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#333",
   },
 });
 
